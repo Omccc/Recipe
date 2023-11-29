@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata for character set and viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the page -->
+    <title>Recipe System</title>
+
+    <!-- Internal CSS styles -->
+    <style>
+        /* Flexbox setup to center content vertically and horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Styling for the main container */
+        .container {
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Styling for Lottie animation */
+        dotlottie-player {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Styling for heading */
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        /* Styling for the form */
+        form {
+            margin-bottom: 20px;
+        }
+
+        /* Styling for form labels */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        /* Styling for form inputs and textareas */
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Styling for form button */
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Styling for form button on hover */
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Styling for the recipe list */
+        #recipeList {
+            margin-top: 20px;
+        }
+
+        /* Styling for individual recipes */
+        .recipe {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        /* Styling for recipe headings */
+        .recipe h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* Styling for recipe paragraphs */
+        .recipe p {
+            margin: 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Main container for the recipe system -->
+<div class="container">
+    <!-- Heading for the recipe system -->
+    <h1>Recipe System</h1>
+
+    <!-- Lottie animation player for visual appeal -->
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <dotlottie-player src="https://lottie.host/0f42307f-de96-40f4-b1cb-5e5463b7646f/vPuEus9DPE.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+
+    <!-- Form for adding recipes -->
+    <form id="recipeForm">
+        <!-- Label and input for recipe name -->
+        <label for="recipeName">Recipe Name:</label>
+        <input type="text" id="recipeName" required>
+
+        <!-- Label and textarea for ingredients -->
+        <label for="ingredients">Ingredients:</label>
+        <textarea id="ingredients" rows="4" required></textarea>
+
+        <!-- Label and textarea for instructions -->
+        <label for="instructions">Instructions:</label>
+        <textarea id="instructions" rows="4" required></textarea>
+
+        <!-- Button to submit the form -->
+        <button type="submit">Add Recipe</button>
+    </form>
+
+    <!-- Container for displaying the list of recipes -->
+    <div id="recipeList"></div>
+</div>
+
+<!-- JavaScript code for dynamic functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Retrieving form and input elements
+        const recipeForm = document.getElementById('recipeForm');
+        const recipeNameInput = document.getElementById('recipeName');
+        const ingredientsInput = document.getElementById('ingredients');
+        const instructionsInput = document.getElementById('instructions');
+        const recipeList = document.getElementById('recipeList');
+
+        // Array to store recipes
+        let recipes = [];
+
+        // Event listener for form submission
+        recipeForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Retrieving input values
+            const name = recipeNameInput.value;
+            const ingredients = ingredientsInput.value;
+            const instructions = instructionsInput.value;
+
+            // Checking if inputs are not empty
+            if (name && ingredients && instructions) {
+                // Creating a recipe object
+                const recipe = {
+                    name: name,
+                    ingredients: ingredients,
+                    instructions: instructions
+                };
+
+                // Adding the recipe to the array
+                recipes.push(recipe);
+
+                // Updating the displayed recipe list
+                updateRecipeList();
+
+                // Clearing form inputs
+                recipeNameInput.value = '';
+                ingredientsInput.value = '';
+                instructionsInput.value = '';
+            }
+        });
+
+        // Function to update the displayed recipe list
+        function updateRecipeList() {
+            recipeList.innerHTML = '';
+
+            recipes.forEach((recipe, index) => {
+                // Creating a div for each recipe
+                const recipeDiv = document.createElement('div');
+                recipeDiv.classList.add('recipe');
+
+                // Creating a heading for the recipe name
+                const heading = document.createElement('h2');
+                heading.textContent = recipe.name;
+                recipeDiv.appendChild(heading);
+
+                // Creating a paragraph for ingredients
+                const ingredientsPara = document.createElement('p');
+                ingredientsPara.textContent = `Ingredients: ${recipe.ingredients}`;
+                recipeDiv.appendChild(ingredientsPara);
+
+                // Creating a paragraph for instructions
+                const instructionsPara = document.createElement('p');
+                instructionsPara.textContent = `Instructions: ${recipe.instructions}`;
+                recipeDiv.appendChild(instructionsPara);
+
+                // Appending the recipe div to the recipe list container
+                recipeList.appendChild(recipeDiv);
+            });
+        }
+    });
+</script>
+
+<!-- External JavaScript file (if applicable) -->
+<script src="app.js"></script>
+</body>
+</html>
