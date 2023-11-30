@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Metadata for character set and viewport -->
     <meta charset="UTF-8">
@@ -110,115 +111,117 @@
         }
     </style>
 </head>
+
 <body>
 
-<!-- Main container for the recipe system -->
-<div class="container">
-    <!-- Heading for the recipe system -->
-    <h1>Recipe System</h1>
+    <!-- Main container for the recipe system -->
+    <div class="container">
+        <!-- Heading for the recipe system -->
+        <h1>Recipe System</h1>
 
-    <!-- Lottie animation player for visual appeal -->
-    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-    <dotlottie-player src="https://lottie.host/0f42307f-de96-40f4-b1cb-5e5463b7646f/vPuEus9DPE.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+        <!-- Lottie animation player for visual appeal -->
+        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+        <dotlottie-player src="https://lottie.host/0f42307f-de96-40f4-b1cb-5e5463b7646f/vPuEus9DPE.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
 
-    <!-- Form for adding recipes -->
-    <form id="recipeForm">
-        <!-- Label and input for recipe name -->
-        <label for="recipeName">Recipe Name:</label>
-        <input type="text" id="recipeName" required>
+        <!-- Form for adding recipes -->
+        <form id="recipeForm">
+            <!-- Label and input for recipe name -->
+            <label for="recipeName">Recipe Name:</label>
+            <input type="text" id="recipeName" required>
 
-        <!-- Label and textarea for ingredients -->
-        <label for="ingredients">Ingredients:</label>
-        <textarea id="ingredients" rows="4" required></textarea>
+            <!-- Label and textarea for ingredients -->
+            <label for="ingredients">Ingredients:</label>
+            <textarea id="ingredients" rows="4" required></textarea>
 
-        <!-- Label and textarea for instructions -->
-        <label for="instructions">Instructions:</label>
-        <textarea id="instructions" rows="4" required></textarea>
+            <!-- Label and textarea for instructions -->
+            <label for="instructions">Instructions:</label>
+            <textarea id="instructions" rows="4" required></textarea>
 
-        <!-- Button to submit the form -->
-        <button type="submit">Add Recipe</button>
-    </form>
+            <!-- Button to submit the form -->
+            <button type="submit">Add Recipe</button>
+        </form>
 
-    <!-- Container for displaying the list of recipes -->
-    <div id="recipeList"></div>
-</div>
+        <!-- Container for displaying the list of recipes -->
+        <div id="recipeList"></div>
+    </div>
 
-<!-- JavaScript code for dynamic functionality -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Retrieving form and input elements
-        const recipeForm = document.getElementById('recipeForm');
-        const recipeNameInput = document.getElementById('recipeName');
-        const ingredientsInput = document.getElementById('ingredients');
-        const instructionsInput = document.getElementById('instructions');
-        const recipeList = document.getElementById('recipeList');
+    <!-- JavaScript code for dynamic functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Retrieving form and input elements
+            const recipeForm = document.getElementById('recipeForm');
+            const recipeNameInput = document.getElementById('recipeName');
+            const ingredientsInput = document.getElementById('ingredients');
+            const instructionsInput = document.getElementById('instructions');
+            const recipeList = document.getElementById('recipeList');
 
-        // Array to store recipes
-        let recipes = [];
+            // Array to store recipes
+            let recipes = [];
 
-        // Event listener for form submission
-        recipeForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+            // Event listener for form submission
+            recipeForm.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-            // Retrieving input values
-            const name = recipeNameInput.value;
-            const ingredients = ingredientsInput.value;
-            const instructions = instructionsInput.value;
+                // Retrieving input values
+                const name = recipeNameInput.value;
+                const ingredients = ingredientsInput.value;
+                const instructions = instructionsInput.value;
 
-            // Checking if inputs are not empty
-            if (name && ingredients && instructions) {
-                // Creating a recipe object
-                const recipe = {
-                    name: name,
-                    ingredients: ingredients,
-                    instructions: instructions
-                };
+                // Checking if inputs are not empty
+                if (name && ingredients && instructions) {
+                    // Creating a recipe object
+                    const recipe = {
+                        name: name,
+                        ingredients: ingredients,
+                        instructions: instructions
+                    };
 
-                // Adding the recipe to the array
-                recipes.push(recipe);
+                    // Adding the recipe to the array
+                    recipes.push(recipe);
 
-                // Updating the displayed recipe list
-                updateRecipeList();
+                    // Updating the displayed recipe list
+                    updateRecipeList();
 
-                // Clearing form inputs
-                recipeNameInput.value = '';
-                ingredientsInput.value = '';
-                instructionsInput.value = '';
+                    // Clearing form inputs
+                    recipeNameInput.value = '';
+                    ingredientsInput.value = '';
+                    instructionsInput.value = '';
+                }
+            });
+
+            // Function to update the displayed recipe list
+            function updateRecipeList() {
+                recipeList.innerHTML = '';
+
+                recipes.forEach((recipe, index) => {
+                    // Creating a div for each recipe
+                    const recipeDiv = document.createElement('div');
+                    recipeDiv.classList.add('recipe');
+
+                    // Creating a heading for the recipe name
+                    const heading = document.createElement('h2');
+                    heading.textContent = recipe.name;
+                    recipeDiv.appendChild(heading);
+
+                    // Creating a paragraph for ingredients
+                    const ingredientsPara = document.createElement('p');
+                    ingredientsPara.textContent = `Ingredients: ${recipe.ingredients}`;
+                    recipeDiv.appendChild(ingredientsPara);
+
+                    // Creating a paragraph for instructions
+                    const instructionsPara = document.createElement('p');
+                    instructionsPara.textContent = `Instructions: ${recipe.instructions}`;
+                    recipeDiv.appendChild(instructionsPara);
+
+                    // Appending the recipe div to the recipe list container
+                    recipeList.appendChild(recipeDiv);
+                });
             }
         });
+    </script>
 
-        // Function to update the displayed recipe list
-        function updateRecipeList() {
-            recipeList.innerHTML = '';
-
-            recipes.forEach((recipe, index) => {
-                // Creating a div for each recipe
-                const recipeDiv = document.createElement('div');
-                recipeDiv.classList.add('recipe');
-
-                // Creating a heading for the recipe name
-                const heading = document.createElement('h2');
-                heading.textContent = recipe.name;
-                recipeDiv.appendChild(heading);
-
-                // Creating a paragraph for ingredients
-                const ingredientsPara = document.createElement('p');
-                ingredientsPara.textContent = `Ingredients: ${recipe.ingredients}`;
-                recipeDiv.appendChild(ingredientsPara);
-
-                // Creating a paragraph for instructions
-                const instructionsPara = document.createElement('p');
-                instructionsPara.textContent = `Instructions: ${recipe.instructions}`;
-                recipeDiv.appendChild(instructionsPara);
-
-                // Appending the recipe div to the recipe list container
-                recipeList.appendChild(recipeDiv);
-            });
-        }
-    });
-</script>
-
-<!-- External JavaScript file (if applicable) -->
-<script src="app.js"></script>
+    <!-- External JavaScript file (if applicable) -->
+    <script src="app.js"></script>
 </body>
+
 </html>
